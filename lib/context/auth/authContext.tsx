@@ -8,6 +8,7 @@ import {
 import {
   createContext,
   FunctionComponent,
+  PropsWithChildren,
   ReactNode,
   useEffect,
   useState,
@@ -47,7 +48,9 @@ type Props = {
   children?: ReactNode;
 };
 
-export const AuthProvider: FunctionComponent = ({ children }: Props) => {
+export const AuthProvider: FunctionComponent<PropsWithChildren<Props>> = ({
+  children,
+}: Props) => {
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
 
@@ -74,7 +77,7 @@ export const AuthProvider: FunctionComponent = ({ children }: Props) => {
         setUser(session?.user ?? null);
       }
     );
-    
+
     /* cleanup function */
     return () => authListener?.unsubscribe();
   }, []);
