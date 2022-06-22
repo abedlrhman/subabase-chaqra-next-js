@@ -8,10 +8,50 @@ import {
   Button,
   Text,
 } from "@chakra-ui/react";
+import { useAuth } from "@lib/context/auth";
+import { useFormFields } from "@lib/hooks/useFormField";
 import type { NextPage } from "next";
 import Head from "next/head";
+import { FormEvent, useState } from "react";
+
+type SignInFieldProps = {
+  email: string;
+};
+
+const FORM_VALUES: SignInFieldProps = {
+  email: "",
+};
 
 const Login: NextPage = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [message, setMessage] = useState<{ type?: string; content?: string }>({
+    type: "",
+    content: "",
+  });
+  const [submitted, setSubmitted] = useState<boolean>(false);
+
+  const { signIn } = useAuth();
+
+  const [values, handleChange, resetFormField] =
+    useFormFields<SignInFieldProps>(FORM_VALUES);
+
+  const handleSignin = async (e: FormEvent<Element>) => {
+    e.preventDefault();
+
+    setLoading(true);
+    const { error } = await signIn(values);
+
+    if (error) {
+      setMessage({ type: "error", content: error.message });
+      setLoading(false);
+      return;
+    }
+
+    setLoading(false);
+    resetFormField();
+    setSubmitted(true);
+  };
+
   return (
     <div>
       <Head>
@@ -43,16 +83,21 @@ const Login: NextPage = () => {
               placeholder="your-email@example.com"
               _placeholder={{ color: "gray.500" }}
               type="email"
+              name="email "
               autoComplete="off"
+              value={values.email}
+              onChange={(e: any) => handleChange(e)}
             />
           </FormControl>
           <Stack spacing={6}>
             <Button
+              isLoading={loading}
               bg={"blue.400"}
               color={"white"}
               _hover={{
                 bg: "blue.500",
               }}
+              onClick={(event: FormEvent) => handleSignin(event)}
             >
               Login
             </Button>
