@@ -71,21 +71,36 @@ const Login: NextPage = () => {
             rounded={"xl"}
             p={6}
           >
-            <Heading lineHeight={1.1} fontSize={{ base: "2xl", md: "3xl" }}>
+            <Heading
+              color="gray.900"
+              lineHeight={1.1}
+              fontSize={{ base: "2xl", md: "3xl" }}
+            >
               Login
             </Heading>
-            <Text fontSize={{ base: "sm", sm: "md" }} color={"gray.900"}>
+            <Text fontSize={{ base: "sm", sm: "md" }} color={"gray.800"}>
               You&apos;ll get an email with a login link
             </Text>
             <FormControl id="email">
               <Input
+                border={"2px solid"}
+                borderColor="gray.500"
+                _hover={{
+                  borderColor: "gray.800",
+                }}
+                _focus={{
+                  outline: "none",
+                }}
+                name="email"
                 placeholder="your-email@example.com"
                 _placeholder={{ color: "gray.500" }}
+                color="gray.800"
                 type="email"
-                name="email"
                 autoComplete="off"
                 value={values.email}
-                onChange={(e: any) => handleChange(e)}
+                onChange={(e: any) => {
+                  handleChange(e);
+                }}
               />
             </FormControl>
             <Stack spacing={6}>
@@ -96,7 +111,7 @@ const Login: NextPage = () => {
                 _hover={{
                   bg: "blue.500",
                 }}
-                onClick={(event: FormEvent) => handleSignin(event)}
+                onClick={(e: FormEvent) => handleSignin(e)}
               >
                 Login
               </Button>
@@ -109,17 +124,17 @@ const Login: NextPage = () => {
           maxW="50%"
           mx="auto"
           display={"flex"}
-          justifyContent="center "
-          alignItems={"center"}
-          flexDir="column"
-          w={"100%"}
+          flexDirection="column"
+          w="100%"
           h="100vh"
+          justifyContent="center"
+          alignItems="center"
         >
-          <Heading as={"h1"} mb={4} size={"2xl"}>
+          <Heading mb={4} as="h1" size="2xl">
             Link Sent!
           </Heading>
           <Text fontSize={"xl"}>
-            Please Check your inbox or your login link.
+            Please, check your inbox for your login link.
           </Text>
         </Box>
       )}
