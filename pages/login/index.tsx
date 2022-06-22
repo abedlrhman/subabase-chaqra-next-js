@@ -7,6 +7,7 @@ import {
   Input,
   Button,
   Text,
+  Box,
 } from "@chakra-ui/react";
 import { useAuth } from "@lib/context/auth";
 import { useFormFields } from "@lib/hooks/useFormField";
@@ -60,50 +61,68 @@ const Login: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Flex minH={"100vh"} align={"center"} justify={"center"} bg={"black"}>
-        <Stack
-          spacing={4}
-          w={"full"}
-          maxW={"md"}
-          bg={"whiteAlpha.900"}
-          rounded={"xl"}
-          p={6}
-        >
-          <Heading lineHeight={1.1} fontSize={{ base: "2xl", md: "3xl" }}>
-            Login
-          </Heading>
-          <Text
-            fontSize={{ base: "sm", sm: "md" }}
-            color={useColorModeValue("gray.800", "gray.400")}
+      {!submitted ? (
+        <Flex minH={"100vh"} align={"center"} justify={"center"} bg={"black"}>
+          <Stack
+            spacing={4}
+            w={"full"}
+            maxW={"md"}
+            bg={"whiteAlpha.900"}
+            rounded={"xl"}
+            p={6}
           >
-            You&apos;ll get an email with a login link
-          </Text>
-          <FormControl id="email">
-            <Input
-              placeholder="your-email@example.com"
-              _placeholder={{ color: "gray.500" }}
-              type="email"
-              name="email "
-              autoComplete="off"
-              value={values.email}
-              onChange={(e: any) => handleChange(e)}
-            />
-          </FormControl>
-          <Stack spacing={6}>
-            <Button
-              isLoading={loading}
-              bg={"blue.400"}
-              color={"white"}
-              _hover={{
-                bg: "blue.500",
-              }}
-              onClick={(event: FormEvent) => handleSignin(event)}
-            >
+            <Heading lineHeight={1.1} fontSize={{ base: "2xl", md: "3xl" }}>
               Login
-            </Button>
+            </Heading>
+            <Text fontSize={{ base: "sm", sm: "md" }} color={"gray.900"}>
+              You&apos;ll get an email with a login link
+            </Text>
+            <FormControl id="email">
+              <Input
+                placeholder="your-email@example.com"
+                _placeholder={{ color: "gray.500" }}
+                type="email"
+                name="email"
+                autoComplete="off"
+                value={values.email}
+                onChange={(e: any) => handleChange(e)}
+              />
+            </FormControl>
+            <Stack spacing={6}>
+              <Button
+                isLoading={loading}
+                bg={"blue.400"}
+                color={"white"}
+                _hover={{
+                  bg: "blue.500",
+                }}
+                onClick={(event: FormEvent) => handleSignin(event)}
+              >
+                Login
+              </Button>
+            </Stack>
           </Stack>
-        </Stack>
-      </Flex>
+        </Flex>
+      ) : (
+        <Box
+          py={{ base: 20, md: 36 }}
+          maxW="50%"
+          mx="auto"
+          display={"flex"}
+          justifyContent="center "
+          alignItems={"center"}
+          flexDir="column"
+          w={"100%"}
+          h="100vh"
+        >
+          <Heading as={"h1"} mb={4} size={"2xl"}>
+            Link Sent!
+          </Heading>
+          <Text fontSize={"xl"}>
+            Please Check your inbox or your login link.
+          </Text>
+        </Box>
+      )}
     </div>
   );
 };
